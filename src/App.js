@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import emailRegex from './email.Regex';
 import goldrecord from './goldRecord.png';
+import snoopAlbums from './snoopAlbums.js';
 
 
 const checkEmail = (email)=>
@@ -13,10 +14,13 @@ const checkEmail = (email)=>
 class App extends React.Component {
 
   state = {
+    modalOpen:false,
     rapName:'',
     email:'',
     isEmailValid:false,
     albumSales : 10000,
+    topAlbum : snoopAlbums[0] ,
+    albumMenuOpen : false,
   }
 
   setRapName= (event)=>{
@@ -38,11 +42,23 @@ class App extends React.Component {
     })
   }
 
+  toggleModal= () =>
+  this.setState ({
+    modalOpen: !this.state.modalOpen
+  })
 
+  toggleAlbumMenu= ()=>
+  this.setState({
+    albumMenuOpen: !this.state.albumMenuOpen,
+  })
 
-
+selectAlbum = (album) =>
+this.setState({
+  topAlbum: album
+})
 
   done = (event)=>{
+    this.toggleModal();
 console.log('done applying , it is friday, now i got nothing to do');    
   }
   render(){
@@ -92,10 +108,65 @@ console.log('done applying , it is friday, now i got nothing to do');
           </div>
       </div>
 
+      <div className = 'card swanky-input-container'>
+          <span className = 'title'>Top Album </span>
+          <div className='album-dropdown-base' onClick={this.toggleAlbumMenu}>
+          {this.state.topAlbum === null ? (
+            <span> Select the best Albums</span>
+            ) : (
+            <>
+              <img src={this.state.topAlbum.cover} 
+                  alt={this.state.topAlbum.name} />
+              <span>{this.state.topAlbum.year}</span>
+              <span>{this.state.topAlbum.name}</span>
+            </>
+            )}
+            <span className='dropdown-arrow'>
+                  {this.state.albumMenuOpen ? '▲' : '▼' }
+            </span>
+            </div>
+            {
+              this.state.albumMenuOpen ? (
+                <ul className='album-menu'>
+                {
+                  snoopAlbums.map((album)=>(
+                    <li key={album.name} onClick={ () => this.selectAlbum(album)}>
+                      <img src={album.cover} />
+                      <span>{album.year}</span>
+                      <span>{album.name}</span>
+                    </li>
+                     ))
+                }
+
+                </ul>
+                ) : null
+            }
+      </div>
+
+
+
         <div className ='done-container'>
           <button className = 'done-button' onClick={this.done}>Done</button>
         </div>
       </div>
+      <div className= {this.state.modalOpen ? 'modalOpen' : 'modalClosed'}>
+      <h2>
+      CONFIRMATION
+      </h2>
+      <p>are you sure you are ready with your app ?? </p>
+      <button onClick={this.done}>Confirm!!</button>
+      <svg viewBox='0 0 100 100' className='xbutton' onClick={this.toggleModal}>
+        <circle cx={50} cy={50} r={47}></circle>
+        <path d='M 30 30 L 70 70' />
+        <path d='M 70 30 L 30 70' />
+
+      </svg>
+      </div>
+      {
+        this.state.modalOpen ? (
+          <div className='modal-shade' onClick={this.toggleModal}/>
+          ) : null 
+      }
 
     </div>
     );

@@ -93,6 +93,72 @@
   width: 50px;
 }
 
+
+.album-dropdown-base{
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  align-items: center;
+
+  padding: 30px 25px 10px 10px;
+}
+
+.album-dropdown-base img  , ul.album-menu img{
+  height: 45px;
+  width: 45px;
+
+}
+
+.album-dropdown-base .dropdown-arrow{
+  position: absolute;
+  right: 5px;
+  user-select: none;
+}
+
+ul.album-menu{
+  list-style: none;
+  padding: 0;
+
+  position: absolute;
+  top: 100%;
+
+  overflow-y:auto;
+  max-height: 25vh;
+  margin: 2px 0 0 ;
+  z-index: 30;
+  background-color: white;
+
+  box-shadow:
+  0px 1px 3px 0px rgba(0,0,0,0.2),
+  0px 1px 1px 0px rgba(0,0,0,0.14),
+  0px 2px 1px -1px rgba(0,0,0,0.12);
+}
+
+ul.album-menu li:hover{
+  background-color: #eee;
+}
+
+ul.album-menu li span , .album-dropdown-base span:not(.dropdown-arrow){
+  display: inline-block;
+  width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+
+}
+
+ul.album-menu li span:nth-child(2), .album-dropdown-base span:nth-child(2) {
+  width: 38px;
+  padding: 0 3px 0 9px;
+
+
+}
+
+
+
+
+
 .done-container {
   flex-basis: 100%;
   display: flex;
@@ -108,6 +174,67 @@
   user-select: none;
 }
 
+.done-button:hover{
+  background-color:#eee;
+
+}
+
+
+.modalOpen{
+  position: fixed;
+  top: 20vh;
+  left: 20vw;
+  width:60vw;
+  height: 40vh;
+  background-color: grey; 
+  padding: 8px;
+  border-radius: 5px;
+
+
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalClosed{
+  display: none;
+}
+
+.modal-shade{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+
+  z-index: 420;
+  background-color: #3338;
+
+}
+
+.modalOpen .xbutton{
+  fill: white;
+  stroke: black;
+  stroke-width:5px;
+
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.modalOpen .xbutton circle,
+.modalOpen .xbutton path{
+  cursor: pointer;
+}
+
+.modalOpen .xbutton:hover path{
+  stroke: red;
+}
 
 
 
