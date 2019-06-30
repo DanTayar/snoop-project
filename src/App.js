@@ -4,7 +4,8 @@ import './App.css';
 import emailRegex from './email.Regex';
 import goldrecord from './goldRecord.png';
 import snoopAlbums from './snoopAlbums.js';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const checkEmail = (email)=>
   emailRegex.test(email);
@@ -19,8 +20,9 @@ class App extends React.Component {
     email:'',
     isEmailValid:false,
     albumSales : 10000,
-    topAlbum : snoopAlbums[0] ,
+    topAlbum : null ,
     albumMenuOpen : false,
+    startDate : null ,
   }
 
   setRapName= (event)=>{
@@ -57,9 +59,29 @@ this.setState({
   topAlbum: album
 })
 
+setStartDate = (date)=> 
+this.setState({
+  startDate: date
+})
+
   done = (event)=>{
     this.toggleModal();
-console.log('done applying , it is friday, now i got nothing to do');    
+console.log('done applying , it is friday, now i got nothing to do');
+
+fetch('/submit', {
+  method:'POST', 
+  mode: 'cors' ,
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    rapName: this.state.rapName,
+    email:this.state.email,
+    albumSales : this.state.albumSales,
+    topAlbum : this.state.topAlbum,
+    startDate : this.state.startDate.getTime(),
+
+  }),
+}).then(response => response.text())
+  .then(responseText => console.log(responseText));    
   }
   render(){
     console.log(this.state.isEmailValid);
@@ -141,6 +163,14 @@ console.log('done applying , it is friday, now i got nothing to do');
                 </ul>
                 ) : null
             }
+      </div>
+
+      <div className = 'card swanky-input-container'>
+        <label>
+          <DatePicker selected= {this.state.startDate}
+                     onChange={this.setStartDate} />
+          <span className = 'title'>Start Date </span>
+        </label>
       </div>
 
 
